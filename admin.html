@@ -1,9 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Offer Globis | Admin Panel</title>
+<title>OffersGlobe | Admin Panel</title>
 
 <style>
 * {
@@ -14,17 +15,17 @@ body {
     margin: 0;
     padding: 25px 15px;
     font-family: Arial, sans-serif;
-    background: #f1f5fb;
-    color: #17243a;
+    background: #f4f5f7;
+    color: #202020;
 }
 
 .container {
     max-width: 720px;
     margin: 20px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(20, 40, 80, 0.08);
+    background: #fff;
+    padding: 32px;
+    border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.07);
 }
 
 .header {
@@ -33,13 +34,13 @@ body {
 }
 
 .header h1 {
-    color: #174b91;
+    color: #a47b35;
     margin-bottom: 8px;
     font-size: 30px;
 }
 
 .header p {
-    color: #718096;
+    color: #777;
     margin: 0;
 }
 
@@ -58,7 +59,7 @@ label {
 input, select, textarea {
     width: 100%;
     padding: 13px;
-    border: 1px solid #d8e0ec;
+    border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 15px;
     background: #fff;
@@ -66,7 +67,7 @@ input, select, textarea {
 
 input:focus, select:focus, textarea:focus {
     outline: none;
-    border-color: #2672d8;
+    border-color: #a47b35;
 }
 
 textarea {
@@ -79,27 +80,58 @@ button {
     padding: 15px;
     margin-top: 25px;
     border: none;
-    border-radius: 9px;
-    background: #1765c1;
-    color: white;
+    border-radius: 8px;
+    background: #171717;
+    color: #d6b36b;
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
 }
 
 button:hover {
-    background: #104b91;
+    background: #333;
+}
+
+button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
 }
 
 .note {
     text-align: center;
-    color: #8792a3;
+    color: #888;
     font-size: 13px;
     margin-top: 22px;
 }
 
 .hidden {
     display: none;
+}
+
+#message {
+    margin-top: 18px;
+    padding: 12px;
+    border-radius: 7px;
+    display: none;
+    line-height: 1.5;
+}
+
+.success {
+    display: block !important;
+    background: #e8f7ed;
+    color: #176b36;
+}
+
+.error {
+    display: block !important;
+    background: #fff0f0;
+    color: #a12626;
+}
+
+@media(max-width: 600px) {
+    .container {
+        padding: 22px 18px;
+    }
 }
 </style>
 </head>
@@ -109,13 +141,18 @@ button:hover {
 <div class="container">
 
     <div class="header">
-        <h1>Offer Globis</h1>
+        <h1>OffersGlobe</h1>
         <p>Admin Control Panel</p>
     </div>
 
     <h2>Add New Offer</h2>
 
     <form id="offerForm">
+
+        <label>Admin Secret Token</label>
+        <input type="password" id="adminToken"
+               placeholder="Enter your secret token" required
+               autocomplete="off">
 
         <label>Select Network</label>
         <select id="network" required>
@@ -133,6 +170,9 @@ button:hover {
                 <option value="Job Offers">Job Offers</option>
                 <option value="Reward Offers">Reward Offers</option>
                 <option value="Gift Card Offers">Gift Card Offers</option>
+                <option value="App Offers">App Offers</option>
+                <option value="PIN Offers">PIN Offers</option>
+                <option value="Surveys">Surveys</option>
             </select>
         </div>
 
@@ -140,8 +180,9 @@ button:hover {
         <input type="text" id="title"
                placeholder="Enter offer name" required>
 
-        <label>Upload Offer Image</label>
-        <input type="file" id="image" accept="image/*">
+        <label>Offer Image URL</label>
+        <input type="url" id="image"
+               placeholder="Paste image URL (optional)">
 
         <label>Offer Description</label>
         <textarea id="description"
@@ -152,11 +193,15 @@ button:hover {
         <input type="url" id="link"
                placeholder="Paste your offer link" required>
 
-        <button type="submit">Publish Offer</button>
+        <button type="submit" id="publishButton">
+            Publish Offer
+        </button>
 
     </form>
 
-    <p class="note">Offer Globis Admin Panel</p>
+    <div id="message" role="status"></div>
+
+    <p class="note">OffersGlobe Admin Panel</p>
 
 </div>
 
@@ -164,6 +209,9 @@ button:hover {
 const network = document.getElementById("network");
 const categoryBox = document.getElementById("categoryBox");
 const category = document.getElementById("category");
+const form = document.getElementById("offerForm");
+const message = document.getElementById("message");
+const publishButton = document.getElementById("publishButton");
 
 network.addEventListener("change", function () {
     if (network.value === "Adsterra") {
@@ -180,12 +228,12 @@ network.addEventListener("change", function () {
     }
 });
 
-document.getElementById("offerForm").addEventListener("submit", function(event) {
+form.addEventListener("submit", async function(event) {
     event.preventDefault();
 
-    alert("Admin Panel design is working! Online publishing will be connected later.");
-});
-</script>
+    message.className = "";
+    message.style.display = "none";
 
-</body>
-</html>
+    const token = document.getElementById("adminToken").value.trim();
+
+    const
