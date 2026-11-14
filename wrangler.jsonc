@@ -1,0 +1,19 @@
+
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "offers-globe",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-14",
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "offersglobe-db",
+      "database_id": "c3cfea05-ddce-45e8-a51f-27d325a09ae1"
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offer Globis | Admin Panel</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 15px;
+    font-family: Arial, sans-serif;
+    background: #f1f5fb;
+    color: #17243a;
+}
+
+.container {
+    max-width: 720px;
+    margin: 20px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(20, 40, 80, 0.08);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    color: #174b91;
+    margin-bottom: 8px;
+    font-size: 30px;
+}
+
+.header p {
+    color: #718096;
+    margin: 0;
+}
+
+h2 {
+    font-size: 21px;
+    margin-bottom: 22px;
+}
+
+label {
+    display: block;
+    margin: 18px 0 8px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d8e0ec;
+    border-radius: 8px;
+    font-size: 15px;
+    background: #fff;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #2672d8;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 9px;
+    background: #1765c1;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #104b91;
+}
+
+.note {
+    text-align: center;
+    color: #8792a3;
+    font-size: 13px;
+    margin-top: 22px;
+}
+
+.hidden {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Offer Globis</h1>
+        <p>Admin Control Panel</p>
+    </div>
+
+    <h2>Add New Offer</h2>
+
+    <form id="offerForm">
+
+        <label>Select Network</label>
+        <select id="network" required>
+            <option value="">Choose Network</option>
+            <option value="Adsterra">Adsterra</option>
+            <option value="AdBlueMedia">AdBlueMedia</option>
+            <option value="Affmine">Affmine</option>
+            <option value="AdGain">AdGain</option>
+        </select>
+
+        <div id="categoryBox" class="hidden">
+            <label>Select Offer Category</label>
+            <select id="category">
+                <option value="">Choose Category</option>
+                <option value="Job Offers">Job Offers</option>
+                <option value="Reward Offers">Reward Offers</option>
+                <option value="Gift Card Offers">Gift Card Offers</option>
+            </select>
+        </div>
+
+        <label>Offer Title</label>
+        <input type="text" id="title"
+               placeholder="Enter offer name" required>
+
+        <label>Upload Offer Image</label>
+        <input type="file" id="image" accept="image/*">
+
+        <label>Offer Description</label>
+        <textarea id="description"
+                  placeholder="Write offer details"
+                  required></textarea>
+
+        <label>Offer Link</label>
+        <input type="url" id="link"
+               placeholder="Paste your offer link" required>
+
+        <button type="submit">Publish Offer</button>
+
+    </form>
+
+    <p class="note">Offer Globis Admin Panel</p>
+
+</div>
+
+<script>
+const network = document.getElementById("network");
+const categoryBox = document.getElementById("categoryBox");
+const category = document.getElementById("category");
+
+network.addEventListener("change", function () {
+    if (network.value === "Adsterra") {
+        categoryBox.classList.add("hidden");
+        category.required = false;
+        category.value = "";
+    } else if (network.value !== "") {
+        categoryBox.classList.remove("hidden");
+        category.required = true;
+    } else {
+        categoryBox.classList.add("hidden");
+        category.required = false;
+        category.value = "";
+    }
+});
+
+document.getElementById("offerForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    alert("Admin Panel design is working! Online publishing will be connected later.");
+});
+</script>
+
+</body>
+</html>
